@@ -12,6 +12,7 @@ namespace Jogo_da_Velha_Super_Mario
         private Vector2 position, size;
         private Texture2D background;
         private bool primeiro;
+        private KeyboardState prevKeyState;
 
         public UIBotaoSelect(Vector2 position, Vector2 size, Texture2D background)
         {
@@ -19,6 +20,7 @@ namespace Jogo_da_Velha_Super_Mario
             this.size = size;
             this.background = background;
             primeiro = true;
+            prevKeyState = Keyboard.GetState();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -58,20 +60,21 @@ namespace Jogo_da_Velha_Super_Mario
             return primeiro;
         }
 
-        public int TesteSeta()
+        public int TesteSeta2()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && prevKeyState.IsKeyUp(Keys.Down))
             {
                 return 0;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            else if (Keyboard.GetState().IsKeyDown(Keys.Up) && prevKeyState.IsKeyUp(Keys.Up))
             {
                 return 1;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Enter) && primeiro == true){
+            else if (Keyboard.GetState().IsKeyDown(Keys.Enter) && primeiro == true && prevKeyState.IsKeyUp(Keys.Enter))
+            {
                 return 2;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Enter) && primeiro == false)
+            else if (Keyboard.GetState().IsKeyDown(Keys.Enter) && primeiro == false && prevKeyState.IsKeyUp(Keys.Enter))
             {
                 return 3;
             }
